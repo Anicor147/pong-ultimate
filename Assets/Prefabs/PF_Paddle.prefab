@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 3383710838367208100}
   - component: {fileID: 1654281452095321631}
   - component: {fileID: 2138743213085259410}
+  - component: {fileID: 6339130041377123548}
   m_Layer: 0
   m_Name: PF_Paddle
-  m_TagString: Untagged
+  m_TagString: Paddle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,7 +102,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 0.5
-  m_LinearDrag: 1000
+  m_LinearDrag: 10
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -172,7 +173,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db5f7cbf91704511a52fa9195d4076ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10000
-  boundY: 5
+  speed: 100
+--- !u!114 &6339130041377123548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8988770128472554266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 016c838e3c054e98a93cada2af0a90d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   upKey: 119
   downKey: 115

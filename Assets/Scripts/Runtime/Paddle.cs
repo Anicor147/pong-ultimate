@@ -4,36 +4,26 @@ namespace Core.Pong
 {
     public class Paddle : MonoBehaviour
     {
-        [SerializeField] private float speed = 1f;
-        [SerializeField] private float boundY = 5f;
-        [SerializeField] private KeyCode upKey = KeyCode.W;
-        [SerializeField] private KeyCode downKey = KeyCode.S;
-
-
+        [SerializeField] [Min(0)] private float speed = 1f;
         private Rigidbody2D _rigidbody2D;
-        private Vector2 _direction;
-
+        private Vector2 _previousDirection;
+        
         private void Start()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
-        private void Update()
+        public void Move(Vector2 direction)
         {
-            _direction.y = 0f;
-            if (Input.GetKey(upKey))
+            if (direction != Vector2.zero && _previousDirection != direction)
             {
-                _direction.y = 1f;
+                _rigidbody2D.velocity *= -1;
             }
-            else if (Input.GetKey(downKey))
-            {
-                _direction.y = -1f;
-            }
-        }
 
-        private void FixedUpdate()
-        {
-            _rigidbody2D.AddForce(_direction * speed);
+            _rigidbody2D.AddForce(direction * speed);
+            _rigidbody2D.velocity = Vector2.ClampMagnitude(_rigidbody2D.velocity, speed);
+
+            _previousDirection = direction;
         }
     }
 }
