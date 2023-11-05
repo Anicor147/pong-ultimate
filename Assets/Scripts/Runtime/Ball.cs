@@ -1,23 +1,31 @@
-﻿using UnityEngine;
+﻿using System.Timers;
+using Core.Pong.Runtime;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Core.Pong
 {
     public class Ball : MonoBehaviour
     {
         private Rigidbody2D _rb;
-        [SerializeField] private float speed = 25;
+        [SerializeField] private float initialSpeed = 15;
+        [SerializeField] private float maxVelocity = 25;
+        
+    
+        
         private RaycastHit2D[] _raycastHit2Ds = new RaycastHit2D[1];
 
         private void Start()
         {
+            EventManager.Instance.OnSpeedChanged += ChangeSpeed; 
             _rb = GetComponent<Rigidbody2D>();
-            MoveBall();
+            this.StartTimer(1f , MoveBall);
         }
 
         private void MoveBall()
         {
             var vector2 = new Vector2(Random.Range(-1f, 1f), Random.Range(-0.5f, 0f)).normalized;
-            _rb.velocity = vector2 * speed;
+            _rb.velocity = vector2 * initialSpeed;
         }
 
         private void FixedUpdate()
@@ -29,7 +37,17 @@ namespace Core.Pong
             {
                 _rb.MovePosition(hit.point);
                 _rb.velocity = Vector2.Reflect(_rb.velocity, hit.normal);
+                _rb.velocity = Vector2.ClampMagnitude(_rb.velocity, maxVelocity);
             }
+        }
+        
+        private void ChangeSpeed (Vector3 speed)
+        {
+            var velocity = _rb.velocity;
+            velocity = new Vector2(velocity.x * speed.x, velocity.y * speed.y);
+            
+            _rb.velocity += velocity;
+            _rb.velocity = Vector2.ClampMagnitude(_rb.velocity, maxVelocity);
         }
     }
 }
